@@ -1,11 +1,8 @@
 import React, { useEffect } from "react";
 import { Grid, makeStyles, Paper, Typography } from "@material-ui/core";
-import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
+// import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import { useSnackbar } from "notistack";
-import {
-  getBalanceAndSymbol,
-  getReserves,
-} from "../ethereumFunctions";
+import { getBalanceAndSymbol, getReserves } from "../ethereumFunctions";
 
 import { addLiquidity, quoteAddLiquidity } from "./LiquidityFunctions";
 
@@ -126,7 +123,6 @@ function LiquidityDeployer(props) {
 
   // Determines whether the button should be enabled or not
   const isButtonEnabled = () => {
-
     // If both coins have been selected, and a valid float has been entered for both, which are less than the user's balances, then return true
     const parsedInput1 = parseFloat(field1Value);
     const parsedInput2 = parseFloat(field2Value);
@@ -142,8 +138,6 @@ function LiquidityDeployer(props) {
     );
   };
 
-
-
   const deploy = () => {
     console.log("Attempting to deploy liquidity...");
     setLoading(true);
@@ -153,8 +147,8 @@ function LiquidityDeployer(props) {
       coin2.address,
       field1Value,
       field2Value,
-      '0',
-      '0',
+      "0",
+      "0",
       props.network.router,
       props.network.account,
       props.network.signer
@@ -195,7 +189,7 @@ function LiquidityDeployer(props) {
         props.network.signer,
         props.network.weth.address,
         props.network.coins
-        ).then((data) => {
+      ).then((data) => {
         setCoin1({
           address: address,
           symbol: data.symbol,
@@ -217,13 +211,14 @@ function LiquidityDeployer(props) {
     // We only update the values if the user provides a token
     else if (address) {
       // Getting some token data is async, so we need to wait for the data to return, hence the promise
-      getBalanceAndSymbol(props.network.account,
+      getBalanceAndSymbol(
+        props.network.account,
         address,
         props.network.provider,
         props.network.signer,
         props.network.weth.address,
         props.network.coins
-        ).then((data) => {
+      ).then((data) => {
         setCoin2({
           address: address,
           symbol: data.symbol,
@@ -248,14 +243,18 @@ function LiquidityDeployer(props) {
         props.network.factory,
         props.network.signer,
         props.network.account
-        ).then(
-        (data) => {
-          setReserves([data[0], data[1]]);
-          setLiquidityTokens(data[2]);
-        }
-      );
+      ).then((data) => {
+        setReserves([data[0], data[1]]);
+        setLiquidityTokens(data[2]);
+      });
     }
-  }, [coin1.address, coin2.address, props.network.account, props.network.factory, props.network.signer]);
+  }, [
+    coin1.address,
+    coin2.address,
+    props.network.account,
+    props.network.factory,
+    props.network.signer,
+  ]);
 
   // This hook is called when either of the state variables `field1Value`, `field2Value`, `coin1.address` or `coin2.address` change.
   // It will give a preview of the liquidity deployment.
@@ -278,7 +277,14 @@ function LiquidityDeployer(props) {
         setLiquidityOut([data[0], data[1], data[2]]);
       });
     }
-  }, [coin1.address, coin2.address, field1Value, field2Value, props.network.factory, props.network.signer]);
+  }, [
+    coin1.address,
+    coin2.address,
+    field1Value,
+    field2Value,
+    props.network.factory,
+    props.network.signer,
+  ]);
 
   // This hook creates a timeout that will run every ~10 seconds, it's role is to check if the user's balance has
   // updated has changed. This allows them to see when a transaction completes by looking at the balance output.
@@ -299,7 +305,7 @@ function LiquidityDeployer(props) {
         });
       }
 
-      if (coin1.address && props.network.account &&!wrongNetworkOpen) {
+      if (coin1.address && props.network.account && !wrongNetworkOpen) {
         getBalanceAndSymbol(
           props.network.account,
           coin1.address,
@@ -307,16 +313,14 @@ function LiquidityDeployer(props) {
           props.network.signer,
           props.network.weth.address,
           props.network.coins
-          ).then(
-          (data) => {
-            setCoin1({
-              ...coin1,
-              balance: data.balance,
-            });
-          }
-        );
+        ).then((data) => {
+          setCoin1({
+            ...coin1,
+            balance: data.balance,
+          });
+        });
       }
-      if (coin2.address && props.network.account &&!wrongNetworkOpen) {
+      if (coin2.address && props.network.account && !wrongNetworkOpen) {
         getBalanceAndSymbol(
           props.network.account,
           coin2.address,
@@ -324,14 +328,12 @@ function LiquidityDeployer(props) {
           props.network.signer,
           props.network.weth.address,
           props.network.coins
-          ).then(
-          (data) => {
-            setCoin2({
-              ...coin2,
-              balance: data.balance,
-            });
-          }
-        );
+        ).then((data) => {
+          setCoin2({
+            ...coin2,
+            balance: data.balance,
+          });
+        });
       }
     }, 10000);
 
@@ -356,9 +358,7 @@ function LiquidityDeployer(props) {
         coins={props.network.coins}
         signer={props.networksigner}
       />
-      <WrongNetwork
-        open={wrongNetworkOpen}
-      />
+      <WrongNetwork open={wrongNetworkOpen} />
 
       <Grid container direction="column" alignItems="center" spacing={2}>
         <Grid item xs={12} className={classes.fullWidth}>
@@ -492,7 +492,7 @@ function LiquidityDeployer(props) {
           fail={false}
           onClick={deploy}
         >
-          <AccountBalanceIcon className={classes.buttonIcon} />
+          {/* <AccountBalanceIcon className={classes.buttonIcon} /> */}
           Deploy
         </LoadingButton>
       </Grid>

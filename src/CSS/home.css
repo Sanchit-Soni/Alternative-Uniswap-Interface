@@ -1,0 +1,24 @@
+.homeContainer {
+  height: 80vh;
+  display: grid;
+  place-items: center;
+}
+
+.homeBox {
+  /* height: 10vh; */
+  background: rgba(255, 255, 255, 0.05);
+  box-shadow: 0 8px 32px 0 rgba(94, 101, 192, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  /* background-color: aqua; */
+  padding: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+}
+
+.homeBoxButtons {
+  margin-bottom: 10px;
+}

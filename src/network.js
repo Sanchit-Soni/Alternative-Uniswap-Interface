@@ -30,7 +30,7 @@ const autoReconnectDelay = 5000;
 
 const Web3Provider = (props) => {
   const [isConnected, setConnected] = useState(true);
-  let network = Object.create( {} )
+  let network = Object.create({});
   network.provider = useRef(null);
   network.signer = useRef(null);
   network.account = useRef(null);
@@ -42,7 +42,7 @@ const Web3Provider = (props) => {
   const backgroundListener = useRef(null);
   async function setupConnection() {
     try {
-      console.log('lets go!');
+      console.log("lets go!");
       network.provider = new ethers.providers.Web3Provider(window.ethereum);
       network.signer = await network.provider.getSigner();
       await getAccount().then(async (result) => {
@@ -68,18 +68,14 @@ const Web3Provider = (props) => {
           });
           // Get the factory address from the router
           await network.router.factory().then((factory_address) => {
-            network.factory = getFactory(
-              factory_address,
-              network.signer
-            );
+            network.factory = getFactory(factory_address, network.signer);
           });
           setConnected(true);
         } else {
           console.log("Wrong network mate.");
-          setConnected(false);
+          setConnected(true);
         }
       });
-
     } catch (e) {
       console.log(e);
     }
@@ -100,7 +96,7 @@ const Web3Provider = (props) => {
         //   await setupConnection();
         // }
       } catch (e) {
-        setConnected(false);
+        setConnected(true);
         await setupConnection();
       }
     }, 2000);
